@@ -42,6 +42,7 @@ async function createEnquiry(data) {
   const payload = {
     properties: {
       name: data.name,
+      enquiry_name: data.name, // Mandatory field, accidentally created in the first place
       estimated_amount: data.estimated_amount,
       enquiry_purpose: data.enquiry_purpose,
       reserved_by: data.reserved_by

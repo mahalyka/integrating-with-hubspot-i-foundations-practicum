@@ -31,11 +31,12 @@ router.get('/update-enquiry', async (req, res) => {
 });
 
 // Form submission: create a new custom object
-router.post('/update-enquiry', async (req, res) => {
+router.post('/process-update-enquiry', async (req, res) => {
   try {
     await createEnquiry(req.body);
     res.redirect('/');
   } catch (error) {
+    console.log(error)
     res.status(500).send('Error creating record');
   }
 });
