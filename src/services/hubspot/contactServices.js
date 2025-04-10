@@ -56,7 +56,6 @@ async function getContact() {
     },
   }));
 
-console.log(resp)
   return resp
 }
 

@@ -39,7 +39,6 @@ router.post('/process-update-enquiry', async (req, res) => {
     await createEnquiry(req.body);
     res.redirect('/');
   } catch (error) {
-    console.log(error)
     res.status(500).send('Error creating record');
   }
 });

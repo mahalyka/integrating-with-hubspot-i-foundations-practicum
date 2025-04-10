@@ -12,7 +12,6 @@ router.get('/', async (req, res) => {
       records,
     });
   } catch (error) {
-    console.log(error)
     res.status(500).send('Error fetching records');
   }
 });
@@ -34,7 +33,6 @@ router.post('/process-update-contact', async (req, res) => {
     await updateOrCreateContact(req.body);
     res.redirect('/');
   } catch (error) {
-    console.log(error)
     res.status(500).send('Error creating record');
   }
 });
