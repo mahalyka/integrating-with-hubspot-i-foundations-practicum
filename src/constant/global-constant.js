@@ -1,10 +1,13 @@
+require('dotenv').config();
+
+const HUBSPOT_BASE_URL = process.env.HUBSPOT_BASE_URL
+
 module.exports = {
-    HUBSPOT_BASE_URL: process.env.HUBSPOT_BASE_URL,
+    HUBSPOT_BASE_URL,
     CUSTOM_OBJECTS: {
-        ENQUIRIES: '2-43175220',
+        ENQUIRIES: 'enquiries',
         CONTACT: 'contacts'
     },
-    SYSTEM: {
-        HS_TOKEN: process.env.HS_TOKEN
-    }
+    PAGE_TITLE: 'Update Enquiry Form | Integrating With HubSpot I Practicum',
+    HOME_TITLE: 'Enquiry List | Integrating With HubSpot I Practicum',
   };
