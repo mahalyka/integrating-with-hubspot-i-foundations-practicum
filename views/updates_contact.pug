@@ -7,10 +7,14 @@ html
     .container.mt-5
       h1.mb-4= title
 
-      form(action='contact/process-update-contact' method='POST')
+      form(action='/contact/process-update-contact' method='POST')
         .mb-3
-          label.form-label(for='fullname') Full Name
-          input.form-control(type='text', name='fullname', required=true)
+          label.form-label(for='firstname') First Name
+          input.form-control(type='text', name='firstname', required=true)
+        
+        .mb-3
+          label.form-label(for='lastname') Last Name
+          input.form-control(type='text', name='lastname', required=true)
 
         .mb-3
           label.form-label(for='email') Email
@@ -21,8 +25,8 @@ html
           input.form-control(type='text', name='phone', required=true)
 
         .mb-3
-          label.form-label(for='phone') Address 
-          textarea.form-control(name='phone', rows='3')
+          label.form-label(for='address') Address 
+          textarea.form-control(name='address', rows='3')
 
         button.btn.btn-success(type='submit') Submit
-        a.btn.btn-secondary.ms-2(href='/') Cancel
+        a.btn.btn-secondary.ms-2(href='/contact') Cancel

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { createContact, getContact } = require('../services/hubspot/contactServices');
+const { getContact, updateOrCreateContact } = require('../services/hubspot/contactServices');
 const { PAGE_CONTACT_TITLE, HOME_CONTACT_TITLE } = require('../constant/global-constant');
 
 // Homepage: list all contact
@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
 // Form page
 router.get('/update-contact', async (req, res) => {
   try {
-    res.render('updates', {
+    res.render('updates_contact', {
       title: PAGE_CONTACT_TITLE
     });
   } catch (error) {
@@ -31,7 +31,7 @@ router.get('/update-contact', async (req, res) => {
 // Form submission: create a new contact
 router.post('/process-update-contact', async (req, res) => {
   try {
-    await createContact(req.body);
+    await updateOrCreateContact(req.body);
     res.redirect('/');
   } catch (error) {
     console.log(error)

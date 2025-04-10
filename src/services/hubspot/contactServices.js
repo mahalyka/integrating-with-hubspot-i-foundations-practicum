@@ -11,6 +11,30 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
+// Validate contact
+async function getContactByEmail(email) {
+  const url = `${HUBSPOT_BASE_URL}/crm/v3/objects/${CUSTOM_OBJECT_TYPE}/search`;
+
+  const body = {
+    filterGroups: [
+      {
+        filters: [
+          {
+            propertyName: 'email',
+            operator: 'EQ',
+            value: email,
+          },
+        ],
+      },
+    ],
+    properties: ['firstname', 'lastname', 'email', 'phone', 'address'],
+    limit: 1,
+  };
+
+  const response = await axios.post(url, body, { headers });
+  return response.data.results?.[0] || null;
+}
+
 // Fetch all contact records
 async function getContact() {
   const url = `${HUBSPOT_BASE_URL}/crm/v3/objects/${CUSTOM_OBJECT_TYPE}`;
@@ -18,7 +42,7 @@ async function getContact() {
   const response = await axios.get(url, {
     headers,
     params: {
-      properties: ['fullname', 'email', 'phone', 'address'].join(','),
+      properties: ['firstname', 'lastname', 'email', 'phone', 'address'].join(','),
     },
   });
 
@@ -27,6 +51,7 @@ async function getContact() {
     ...record,
     properties: {
       ...record.properties,
+      fullname: `${record.properties.firstname} ${record.properties.lastname}`,
       hs_createdate: formatDate(record.properties.hs_createdate),
     },
   }));
@@ -35,24 +60,47 @@ console.log(resp)
   return resp
 }
 
-// Create a new contact record
-async function createContact(data) {
-  const url = `${HUBSPOT_BASE_URL}/crm/v3/objects/${CUSTOM_OBJECT_TYPE}`;
-
-  const payload = {
+// Update function
+async function updateContact(contactId, data) {
+  const url = `${HUBSPOT_BASE_URL}/crm/v3/objects/${CUSTOM_OBJECT_TYPE}/${contactId}`;
+  return await axios.patch(url, {
     properties: {
-      fullname: data.fullname,
+      firstname: data.firstname,
+      lastname: data.lastname,
       email: data.email,
       phone: data.phone,
-      address: data.address
+      address: data.address,
     },
-  };
+  }, { headers });
+}
 
-  const response = await axios.post(url, payload, { headers });
-  return response.data;
+// Create function
+async function createContact(data) {
+  const url = `${HUBSPOT_BASE_URL}/crm/v3/objects/${CUSTOM_OBJECT_TYPE}`;
+  return await axios.post(url, {
+    properties: {
+      firstname: data.firstname,
+      lastname: data.lastname,
+      email: data.email,
+      phone: data.phone,
+      address: data.address,
+    },
+  }, { headers });
+}
+
+
+// Create a new contact record
+async function updateOrCreateContact(data) {
+  const existing = await getContactByEmail(data.email);
+
+  if (existing) {
+    return await updateContact(existing.id, data);
+  } else {
+    return await createContact(data);
+  }
 }
 
 module.exports = {
   getContact,
-  createContact,
+  updateOrCreateContact
 };

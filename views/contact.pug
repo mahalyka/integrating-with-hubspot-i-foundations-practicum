@@ -6,7 +6,11 @@ html
   body
     .container.mt-5
       h1.mb-4= title
-      a.btn.btn-primary(href='/contact/update-contact') + New Contact
+
+      .d-flex.mb-3
+        a.btn.btn-error.me-2(href='/') &lt; Back
+        a.btn.btn-primary(href='/contact/update-contact') + New Contact
+
       if records && records.length
         table.table.table-bordered.mt-4
           thead

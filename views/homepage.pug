@@ -6,8 +6,10 @@ html
   body
     .container.mt-5
       h1.mb-4= title
-      a.btn.btn-primary(href='/update-enquiry') + New Enquiry
-      a.btn.btn-primary(href='/contact') + Open Contact List
+
+      .d-flex.mb-3
+        a.btn.btn-primary.me-2(href='/update-enquiry') + New Enquiry
+        a.btn.btn-primary(href='/contact') + Open Contact List
       if records && records.length
         table.table.table-bordered.mt-4
           thead
