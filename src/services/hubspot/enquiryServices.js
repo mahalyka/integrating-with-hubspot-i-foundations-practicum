@@ -32,8 +32,6 @@ async function getEnquiry() {
       },
     }));
 
-    console.log(resp)
-  
     return resp
 }
 
