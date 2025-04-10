@@ -20,9 +20,12 @@ router.get('/', async (req, res) => {
 router.get('/update-enquiry', async (req, res) => {
   try {
     const reservedByOptions = await getReservedByOptions();
+    const contactId = req.query.contactId || null;
+
     res.render('updates', {
       title: PAGE_TITLE,
       reservedByOptions,
+      contactId,
     });
   } catch (error) {
     console.error('Failed to load reserved by options:', error?.response?.data || error.message);

@@ -13,12 +13,12 @@ const headers = {
 
 // Fetch all enquiry records
 async function getEnquiry() {
-    const url = `${HUBSPOT_BASE_URL}/crm/v3/objects/${CUSTOM_OBJECTS.ENQUIRIES}`;
+    const url = `${HUBSPOT_BASE_URL}/crm/v3/objects/${CUSTOM_OBJECT_TYPE}`;
     
     const response = await axios.get(url, {
       headers,
       params: {
-        properties: ['name', 'reserved_by', 'estimated_amount', 'enquiry_purpose', 'createdate'].join(','),
+        properties: ['name', 'reserved_by', 'estimated_amount', 'enquiry_purpose'].join(','),
       },
     });
 
@@ -50,6 +50,14 @@ async function createEnquiry(data) {
   };
 
   const response = await axios.post(url, payload, { headers });
+  const enquiryId = response.data.id;
+
+  if (data.contact_id) {
+    const associationUrl = `${HUBSPOT_BASE_URL}/crm/v3/objects/${CUSTOM_OBJECT_TYPE}/${enquiryId}/associations/contacts/${data.contact_id}/customer`;
+
+    await axios.put(associationUrl, {}, { headers });
+  }
+
   return response.data;
 }
 

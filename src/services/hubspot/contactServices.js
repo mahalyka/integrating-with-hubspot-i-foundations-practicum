@@ -1,5 +1,6 @@
 const axios = require('axios');
 const { HUBSPOT_BASE_URL, CUSTOM_OBJECTS } = require('../../constant/global-constant');
+const { formatDate } = require('../../handler');
 require('dotenv').config();
 
 const HUBSPOT_API_KEY = process.env.HS_TOKEN;
@@ -10,24 +11,40 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
-// Fetch all enquiry records
-async function getEnquiry() {
+// Fetch all contact records
+async function getContact() {
   const url = `${HUBSPOT_BASE_URL}/crm/v3/objects/${CUSTOM_OBJECT_TYPE}`;
-  const response = await axios.get(url, { headers });
-  return response.data.results;
+    
+  const response = await axios.get(url, {
+    headers,
+    params: {
+      properties: ['fullname', 'email', 'phone', 'address'].join(','),
+    },
+  });
+
+  const resp=response.data.results.map(record => ({
+    id: record.id,
+    ...record,
+    properties: {
+      ...record.properties,
+      hs_createdate: formatDate(record.properties.hs_createdate),
+    },
+  }));
+
+console.log(resp)
+  return resp
 }
 
-// Create a new enquiry record
-async function createEnquiry(data) {
+// Create a new contact record
+async function createContact(data) {
   const url = `${HUBSPOT_BASE_URL}/crm/v3/objects/${CUSTOM_OBJECT_TYPE}`;
 
   const payload = {
     properties: {
-      name: data.name,
-      estimated_amount: data.estimated_amount,
-      enquiry_purpose: data.enquiry_purpose,
-      reserved_by: data.reserved_by,
-      enquiry_name: data.enquiry_name
+      fullname: data.fullname,
+      email: data.email,
+      phone: data.phone,
+      address: data.address
     },
   };
 
@@ -36,6 +53,6 @@ async function createEnquiry(data) {
 }
 
 module.exports = {
-  getEnquiry,
-  createEnquiry,
+  getContact,
+  createContact,
 };

@@ -6,26 +6,28 @@ html
   body
     .container.mt-5
       h1.mb-4= title
-      a.btn.btn-primary(href='/update-enquiry') + New Enquiry
-      a.btn.btn-primary(href='/contact') + Open Contact List
+      a.btn.btn-primary(href='/contact/update-contact') + New Contact
       if records && records.length
         table.table.table-bordered.mt-4
           thead
             tr
               th ID
-              th Name
-              th Reserved By
-              th Estimated Amount
-              th Purpose
+              th Full Name
+              th email
+              th Phone Number
+              th Address
               th Created At
+              th Process
           tbody
             each record in records
               tr
                 td= record.id
-                td= record.properties.name || '-'
-                td= record.properties.reserved_by || '-'
-                td= record.properties.estimated_amount || '-'
-                td= record.properties.enquiry_purpose || '-'
+                td= record.properties.fullname || '-'
+                td= record.properties.email || '-'
+                td= record.properties.phone || '-'
+                td= record.properties.address || '-'
                 td= new Date(record.properties.hs_createdate).toLocaleString()
+                td
+                  a.btn.btn-sm.btn-success(href=`/update-enquiry?contactId=${record.id}`) + Create Enquiry
       else
         p.mt-4.text-muted No enquiries found.

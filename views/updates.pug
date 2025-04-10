@@ -27,6 +27,10 @@ html
             if reservedByOptions
               each option in reservedByOptions
                 option(value=option.value)= option.label
+        
+        .mb-3
+            label.form-label(for='contact_id') Associated to this contact ID
+            input.form-control(type='text', name='contact_id', readonly=true, value=contactId || '')
 
         button.btn.btn-success(type='submit') Submit
         a.btn.btn-secondary.ms-2(href='/') Cancel

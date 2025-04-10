@@ -10,4 +10,6 @@ module.exports = {
     },
     PAGE_TITLE: 'Update Enquiry Form | Integrating With HubSpot I Practicum',
     HOME_TITLE: 'Enquiry List | Integrating With HubSpot I Practicum',
+    PAGE_CONTACT_TITLE: 'Update Enquiry Form | Integrating With HubSpot I Practicum',
+    HOME_CONTACT_TITLE: 'Enquiry List | Integrating With HubSpot I Practicum',
   };
